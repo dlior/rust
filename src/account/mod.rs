@@ -35,7 +35,7 @@ pub fn account_activity() {
     let account_balance: i64 = transactions.iter().sum();
     let total_amount: f64 = transactions
         .iter()
-        .map(|&t| if t < 0 { (-1 * t) as f64 } else { t as f64 })
+        .map(|&t| t.abs() as f64)
         .sum();
     let transactions_count = transactions.len() as f64;
     let average_amount = total_amount / transactions_count;
