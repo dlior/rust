@@ -31,24 +31,21 @@ pub fn account_activity() {
         .map(|t| t.parse::<i64>().expect("Invalid input."))
         .take_while(|&t| t != 0)
         .collect();
-
     let account_balance: i64 = transactions.iter().sum();
     let total_amount: f64 = transactions
         .iter()
         .map(|&t| t.abs() as f64)
         .sum();
-    let transactions_count = transactions.len() as f64;
-    let average_amount = total_amount / transactions_count;
-    let has_suspicious_activity = transactions.iter().any(|&t| {
-        let abs_transtaction = t.abs() as f64;
-        abs_transtaction > average_amount * factor.unwrap()
-    });
+    let transactions_count = transactions.len();
+    let average_amount = total_amount / (transactions_count as f64);
+    let has_suspicious_activity = transactions
+        .iter()
+        .any(|&t| { (t.abs() as f64) > average_amount * factor.unwrap() });
 
     println!("Account balance: {account_balance}");
     println!("Average amount: {:.2}", average_amount);
-    if has_suspicious_activity == true {
-        println!("Suspicious account!");
-    } else {
-        println!("No suspicious activity detected.")
+    match has_suspicious_activity {
+        true => println!("Suspicious account!"),
+        false => println!("No suspicious activity detected."),
     }
 }
