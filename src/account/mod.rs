@@ -6,7 +6,7 @@ fn prompt_message(msg: &str) {
 }
 
 pub fn account_activity() {
-    let mut factor: Option<f64> = None;
+    let factor: f64;
 
     loop {
         prompt_message("Please enter a positive number: ");
@@ -15,7 +15,7 @@ pub fn account_activity() {
 
         match input.trim().parse::<f64>() {
             Ok(parsed) if parsed > 0.0 => {
-                factor = Some(parsed);
+                factor = parsed;
                 break;
             }
             _ => prompt_message("Invalid number. Please enter again: "),
@@ -40,7 +40,7 @@ pub fn account_activity() {
     let average_amount = total_amount / (transactions_count as f64);
     let has_suspicious_activity = transactions
         .iter()
-        .any(|&t| { (t.abs() as f64) > average_amount * factor.unwrap() });
+        .any(|&t| { (t.abs() as f64) > average_amount * factor });
 
     println!("Account balance: {account_balance}");
     println!("Average amount: {:.2}", average_amount);
